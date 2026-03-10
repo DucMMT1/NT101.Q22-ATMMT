@@ -36,7 +36,10 @@ Bài lab này nhằm giúp sinh viên làm quen với các khái niệm cơ bả
     + Nhiệm vụ 2.7
 
 ## 🪪 Thành viên nhóm 4
-
+| STT | Họ và tên | MSSV |
+|:---:|:---|:---:|
+| 1 | **Đỗ Duy Đức** | 24520313 | 
+| 2 | **Trần Minh Đức** | 24520330 |
 
 ## 📚 Tài liệu tham khảo
 
