@@ -77,7 +77,7 @@ int main() {
     string bestKeyGlobal;
     double bestScoreGlobal = -1e9;
 
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 10; i++) {
         string key = hillClimb(cipher);
         double score = fitness(decrypt(cipher, key));
 
