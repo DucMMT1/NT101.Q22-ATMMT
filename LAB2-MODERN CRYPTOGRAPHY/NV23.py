@@ -1,36 +1,36 @@
-from Crypto.Cipher import AES
+from Crypto.Cipher import DES
 import binascii
 
-def count_bit_difference(bin1, bin2):
-    # Đếm số bit khác nhau giữa 2 chuỗi nhị phân
-    count = 0
-    for b1, b2 in zip(bin1, bin2):
-        if b1 != b2:
-            count += 1
-    return count
+def to_binary(data):
+    """Chuyển đổi bytes sang chuỗi nhị phân 64-bit"""
+    return ''.join(format(b, '08b') for b in data)
 
-# Khởi tạo
-key = b'1234567890123456'
-cipher = AES.new(key, AES.MODE_ECB)
+def calculate_hamming_distance(bin1, bin2):
+    """Đếm số bit khác nhau (Hamming Distance)"""
+    return sum(c1 != c2 for c1, c2 in zip(bin1, bin2))
 
-# Bản rõ 1 và Bản rõ 2 (chỉ khác nhau 1 ký tự cuối)
-p1 = b'UIT_LAB_02_ABCDE' # 16 bytes
-# Thay đổi chữ 'E' thành 'F' (thay đổi ít nhất 1 bit)
-p2 = b'UIT_LAB_02_ABCDF' 
+def run_des_avalanche(plain1, plain2, key_str):
+    key = key_str.encode('ascii')
+    cipher = DES.new(key, DES.MODE_ECB)
+    
+    ct1 = cipher.encrypt(plain1.encode('ascii'))
+    ct2 = cipher.encrypt(plain2.encode('ascii'))
+    bin1 = to_binary(ct1)
+    bin2 = to_binary(ct2)
+    
+    distance = calculate_hamming_distance(bin1, bin2)
+    percentage = (distance / 64) * 100
+    
+    print(f"--- Ket qua voi Key (MSSV): {key_str} ---")
+    print(f"Plaintext 1: {plain1} -> Ciphertext (Hex): {ct1.hex()}")
+    print(f"Plaintext 2: {plain2} -> Ciphertext (Hex): {ct2.hex()}")
+    print(f"Hamming Distance: {distance} bits")
+    print(f"Avalanche Ratio: {percentage:.2f}%\n")
+    return percentage
 
-# Mã hóa
-c1 = cipher.encrypt(p1)
-c2 = cipher.encrypt(p2)
+p1 = "STAYHOME"
+p2 = "STAYHOMA" 
+mssvs = ["24520330", "24520313"]
 
-# Chuyển sang nhị phân để so sánh bit
-bin1 = bin(int.from_bytes(c1, byteorder='big'))[2:].zfill(128)
-bin2 = bin(int.from_bytes(c2, byteorder='big'))[2:].zfill(128)
-
-# Tính toán
-diff = count_bit_difference(bin1, bin2)
-percentage = (diff / 128) * 100
-
-print(f"Bản mã 1 (Hex): {c1.hex()}")
-print(f"Bản mã 2 (Hex): {c2.hex()}")
-print(f"Số bit khác nhau: {diff}/128")
-print(f"Tỷ lệ thay đổi: {percentage:.2f}%")
+for mssv in mssvs:
+    run_des_avalanche(p1, p2, mssv)
