@@ -7,7 +7,7 @@ SECRET_KEY = b'1234567890123456'   # Khóa 128-bit
 INIT_VECTOR = b'abcdefghijklmnop'  # IV 128-bit
 
 # Sinh dữ liệu ngẫu nhiên (plaintext)
-def generate_random_data(size=1000): # 
+def generate_random_data(size=1000): 
     return os.urandom(size)
 
 # KHỞI TẠO CIPHER
@@ -29,7 +29,7 @@ def create_cipher(mode: str):
 
 # LỖI TRÊN CIPHERTEXT
 # Đảo 1 bit tại vị trí byte_index (Mặc định byte 26 - index 25)
-def flip_bit(cipher_bytes: bytearray, byte_index=25): # [cite: 371]
+def flip_bit(cipher_bytes: bytearray, byte_index=25):
     cipher_bytes[byte_index] ^= 1
     return cipher_bytes
 
